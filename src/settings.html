@@ -116,6 +116,13 @@
         </p>
         <input id="charName" class="px-input" type="text" maxlength="24" placeholder="Name your buddy" autocomplete="off" />
         <div class="picks" id="picks"></div>
+        <label class="check" for="doPixel"><input id="doPixel" type="checkbox" checked /><span class="box" aria-hidden="true"></span><span>Turn my pictures into pixel art</span></label>
+        <label class="check" for="doBg"><input id="doBg" type="checkbox" checked /><span class="box" aria-hidden="true"></span><span>Remove the plain background</span></label>
+        <label class="check" for="doPoses"><input id="doPoses" type="checkbox" checked /><span class="box" aria-hidden="true"></span><span>Make the drinking and celebrating poses for me</span></label>
+        <div class="row">
+          <label for="detail">Pixel detail</label>
+          <input id="detail" type="range" min="28" max="80" step="2" value="48" />
+        </div>
         <p class="error" id="charError" role="alert" hidden></p>
         <div class="row">
           <label class="check" for="useNow"><input id="useNow" type="checkbox" checked /><span class="box" aria-hidden="true"></span><span>Use it right away</span></label>
@@ -134,6 +141,7 @@
         </div>
       </footer>
     </form>
+    <script src="pixelize.js"></script>
     <script src="settings.js"></script>
   </body>
 </html>

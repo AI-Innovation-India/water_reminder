@@ -2,15 +2,83 @@
 
 A tiny pixel-art buddy who pops into the corner of your screen, reminds you to drink water, celebrates when you do, and leaves. Built with Electron 44.
 
-## Run it
+## Step-by-step: get it running (Windows)
 
-```bash
+**Step 1. Install the tools (one time).**
+1. Install **Node.js 20 or newer** (the LTS version) from https://nodejs.org and accept the defaults.
+2. Install **Git** from https://git-scm.com (only needed to download the code).
+3. Open **PowerShell** and check: `node --version` and `git --version` should both print a version.
+
+**Step 2. Download the code.**
+```powershell
+git clone https://github.com/AI-Innovation-India/water_reminder.git
+cd water_reminder
+```
+(No Git? On the GitHub page click **Code > Download ZIP**, unzip it, and open PowerShell inside that folder.)
+
+**Step 3. Install the project's packages.**
+```powershell
 npm install
-npm start          # first launch downloads the Electron binary (Electron 42+ no longer does it at install)
-npm run demo       # same, but she pops up straight away so you can see everything
 ```
 
-Needs Node 20+. macOS 13+ and 64-bit only (Electron 44 requirement).
+**Step 4. Try it.** She pops up straight away so you can see everything:
+```powershell
+npm run demo
+```
+Fill in your name, how often to remind you, and pick a buddy, then press **Start reminding me**. Later, `npm start` runs it without the instant pop-up.
+
+**Step 5. Check it works (optional).**
+```powershell
+npm test        # quick unit tests
+npm run e2e     # drives the real app end to end (windows flash on screen for about a minute)
+```
+
+**Step 6. Install it as a real desktop app (recommended).**
+```powershell
+npm run dist
+```
+This takes a few minutes the first time. Then open the new `dist` folder and double-click **Water Buddy Setup 1.0.0.exe**.
+1. If Windows SmartScreen says "unknown publisher", click **More info**, then **Run anyway** (the installer is not code-signed).
+2. Choose an install folder (or keep the default) and click **Install**.
+3. A **Water Buddy** shortcut appears on your desktop and in the Start menu, and the app starts.
+
+**Step 6b. Make her start with Windows.** Right-click the Water Buddy tray icon (a blue drop near the clock; it may be hidden under the `^` arrow, so drag it onto the taskbar) and tick **Launch at login**. This only works in the installed app.
+
+**Step 7. Use it every day.** Everything lives in the tray icon:
+| Menu item | What it does |
+| --- | --- |
+| Drink now / Log water | Count a drink yourself (250, 500, 750 ml) |
+| Focus timer | 25/5 or 50/10 minute focus and break timer |
+| Play with buddy | Catch-the-drops mini-game |
+| Character / Accessory | Switch buddy, put on a hat or shades you have unlocked |
+| Settings and stats | Goal, glass size, hours, timezone, other reminders, weekly chart, make your own buddy |
+| Hot day / Sounds / Pause | Quick switches |
+
+**Step 8. Uninstall.** Windows Settings > Apps > Installed apps > Water Buddy > Uninstall.
+
+**If something goes wrong**
+- *Nothing happens when I run `npm start`*: in some terminals (for example inside VS Code) a variable named `ELECTRON_RUN_AS_NODE` is set. Clear it first: `Remove-Item Env:ELECTRON_RUN_AS_NODE`, then run again.
+- *First start is slow*: the first run downloads the Electron program once.
+- *I closed the first setup window and she disappeared*: that is on purpose, nothing is configured yet. Start her again and press **Start reminding me**.
+- *I can't find her*: look in the tray under the `^` arrow. Starting the app a second time makes her say hi.
+
+Needs Node 20+. macOS 13+ and 64-bit only (Electron 44 requirement). On macOS/Linux use the same steps, and `npm run dist` builds a macOS app / Linux AppImage instead.
+
+## Make your own pixel-art buddy from a picture (step by step)
+
+You can turn any picture you have (a photo, a drawing, a character you like) into a buddy. It stays on your computer.
+
+1. Right-click the tray icon > **Character > Create your own...** (or **Settings and stats > Characters**).
+2. Type a **name** for your buddy.
+3. Click **Choose standing...** and pick a picture. A picture of one subject on a plain background works best.
+4. Look at the preview. Leave **Turn my pictures into pixel art** ticked; it shrinks the picture, limits the colours and draws the dark pixel outline.
+   - **Remove the plain background** cuts out a flat-colour background.
+   - **Pixel detail** slider: lower = chunkier, higher = more detail.
+   - **Make the drinking and celebrating poses for me** adds a glass and sparkles. Or choose your own drinking/celebrating pictures.
+5. Tick **Use it right away** and press **Save buddy**.
+6. To remove a buddy later: Settings and stats > Characters > **Delete** under it (click twice to confirm).
+
+Only use pictures you have the right to use. Pictures of real people and characters from films or shows belong to their owners, so keep those buddies for your own use and do not publish them.
 
 ## How it behaves
 

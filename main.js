@@ -360,8 +360,8 @@ function slugify(text) {
 }
 
 /** Turn any picture (png/jpg/gif/bmp...) into a PNG the character system accepts. */
-function toPngBuffer(file) {
-  const img = nativeImage.createFromPath(file);
+function toPngBuffer(source) {
+  const img = Buffer.isBuffer(source) ? nativeImage.createFromBuffer(source) : nativeImage.createFromPath(source);
   if (img.isEmpty()) return null;
   let out = img;
   const { width, height } = img.getSize();
@@ -1255,11 +1255,17 @@ function registerIpc() {
 
   ipcMain.handle('character:create', (event, data) => {
     if (!fromPrefs(event) || !data || typeof data !== 'object') return { ok: false, error: 'Unexpected request.' };
+    // The settings page sends finished PNGs (pixel art already applied); fall back to the picked files.
+    const fromData = (url) => {
+      const m = typeof url === 'string' && url.length < 3 * 1024 * 1024 ? /^data:image\/png;base64,([A-Za-z0-9+/=]+)$/.exec(url) : null;
+      return m ? Buffer.from(m[1], 'base64') : null;
+    };
+    const images = data.images && typeof data.images === 'object' ? data.images : {};
     const result = createUserCharacter({
       name: data.name,
-      standing: pendingImages.standing,
-      drinking: pendingImages.drinking,
-      celebrate: pendingImages.celebrate,
+      standing: fromData(images.standing) || pendingImages.standing,
+      drinking: fromData(images.drinking) || (images.standing ? null : pendingImages.drinking),
+      celebrate: fromData(images.celebrate) || (images.standing ? null : pendingImages.celebrate),
     });
     if (result.ok) {
       for (const key of Object.keys(pendingImages)) delete pendingImages[key];

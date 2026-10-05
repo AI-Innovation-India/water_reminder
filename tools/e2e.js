@@ -237,6 +237,29 @@ async function ack() { const c = await companion(); await evalIn(c, `document.ge
   check('goal met -> streak line in the tray', (await menuLabels()).includes('Streak: 1 day'), JSON.stringify((await menuLabels()).slice(0, 5)));
   check('hot mode checkbox is checked in the tray', await isChecked(['Hot day']) === true);
   check('bad goal is rejected with a message', await evalIn(pref, `(async () => { const g = document.getElementById('goal'); g.value = '10'; document.getElementById('form').requestSubmit(); await new Promise((r) => setTimeout(r, 600)); return !document.getElementById('saveError').hidden; })()`) && settings().goalMl === 700);
+  // photo -> pixel art converter, with a fake "photo" that has a coloured background
+  const conv = await evalIn(pref, `(async () => {
+    const c = document.createElement('canvas'); c.width = 300; c.height = 420; const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 0, 420); g.addColorStop(0, '#7aa2e0'); g.addColorStop(1, '#6d96d6'); x.fillStyle = g; x.fillRect(0, 0, 300, 420);
+    x.fillStyle = '#3a2a20'; x.beginPath(); x.ellipse(150, 120, 70, 75, 0, 0, 7); x.fill();
+    x.fillStyle = '#e0b08a'; x.beginPath(); x.ellipse(150, 135, 55, 62, 0, 0, 7); x.fill();
+    x.fillStyle = '#c0392b'; x.fillRect(80, 200, 140, 200);
+    const url = c.toDataURL('image/png');
+    const out = await Pixelize.pixelize(url, { height: 48, removeBg: true });
+    const keep = await Pixelize.pixelize(url, { height: 48, removeBg: false });
+    const dr = Pixelize.drinkingFrom(out), ce = Pixelize.celebrateFrom(out);
+    const alpha = (cv, px, py) => cv.getContext('2d').getImageData(px, py, 1, 1).data[3];
+    const colours = new Set(); const d = out.getContext('2d').getImageData(0, 0, out.width, out.height).data;
+    for (let i = 0; i < d.length; i += 4) if (d[i + 3]) colours.add(d[i] + ',' + d[i + 1] + ',' + d[i + 2]);
+    const created = await window.api.createCharacter({ name: 'Photo Pal', use: false, images: { standing: out.toDataURL('image/png'), drinking: dr.toDataURL('image/png'), celebrate: ce.toDataURL('image/png') } });
+    return { w: out.width, h: out.height, sameSize: dr.width === out.width && ce.height === out.height, cornerClear: alpha(out, 9, 9) === 0, cornerKept: alpha(keep, 9, 9) === 255, centerSolid: alpha(out, Math.round(out.width / 2), Math.round(out.height / 2)) === 255, colours: colours.size, created, png: out.toDataURL('image/png') };
+  })()`);
+  fs.writeFileSync(`${OUT}/15-pixelized.png`, Buffer.from(conv.png.split(',')[1], 'base64'));
+  check('converter makes small pixel art with an outline', conv.h <= 80 && conv.w < 80 && conv.colours > 3 && conv.colours < 40, `${conv.w}x${conv.h}, ${conv.colours} colours`);
+  check('converter removes a plain background (and can keep it)', conv.cornerClear && conv.cornerKept && conv.centerSolid);
+  check('drinking and celebrating poses match the standing size', conv.sameSize);
+  check('character maker saves processed images', conv.created.ok && fs.existsSync(`${UD}/characters/photo-pal/celebrate.png`) && fs.existsSync(`${UD}/characters/photo-pal/drinking.png`), JSON.stringify(conv.created));
+  await mainEval(`__test.deleteUserCharacter('user:photo-pal')`);
   fire(pref, `document.getElementById('close').click()`);
   check('settings window closes', await waitFor(async () => !(await windows()).some((w) => w.u.startsWith('settings.html')), 4000));
   await clickMenu(['Hot day']);

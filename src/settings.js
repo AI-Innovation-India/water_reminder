@@ -275,21 +275,57 @@
     ['drinking', 'Drinking (optional)'],
     ['celebrate', 'Celebrating (optional)'],
   ];
-  const picked = {};
+  const picked = {}; // pose -> data URL of the picture you chose
 
-  function renderPicks() {
+  /** What will actually be saved for each pose (pixel art and auto poses applied). */
+  async function buildImages() {
+    const out = { standing: null, drinking: null, celebrate: null };
+    if (!picked.standing) return out;
+    const pixel = $('doPixel').checked;
+    const opts = { height: Number($('detail').value), removeBg: $('doBg').checked };
+    const process = async (url) => (pixel ? (await window.Pixelize.pixelize(url, opts)).toDataURL('image/png') : url);
+
+    let standingCanvas = null;
+    if (pixel) {
+      standingCanvas = await window.Pixelize.pixelize(picked.standing, opts);
+      out.standing = standingCanvas.toDataURL('image/png');
+    } else {
+      out.standing = picked.standing;
+    }
+    const auto = $('doPoses').checked && pixel;
+    for (const pose of ['drinking', 'celebrate']) {
+      if (picked[pose]) out[pose] = await process(picked[pose]);
+      else if (auto) {
+        const made = pose === 'drinking' ? window.Pixelize.drinkingFrom(standingCanvas) : window.Pixelize.celebrateFrom(standingCanvas);
+        out[pose] = made.toDataURL('image/png');
+      }
+    }
+    return out;
+  }
+
+  let renderToken = 0;
+  async function renderPicks() {
+    const token = (renderToken += 1);
+    let built = { standing: null, drinking: null, celebrate: null };
+    try {
+      built = await buildImages();
+    } catch (err) {
+      $('charError').textContent = err.message;
+      $('charError').hidden = false;
+    }
+    if (token !== renderToken) return;
     const wrap = $('picks');
     wrap.textContent = '';
     for (const [pose, title] of POSES) {
       const box = make('div', 'pick');
       const thumb = make('div', 'thumb');
-      if (picked[pose]) {
+      if (built[pose]) {
         const img = make('img');
         img.alt = '';
-        img.src = picked[pose];
+        img.src = built[pose];
         thumb.appendChild(img);
       } else {
-        thumb.textContent = 'no picture yet';
+        thumb.textContent = picked.standing ? 'same as standing' : 'no picture yet';
       }
       const button = make('button', 'btn btn-ghost', picked[pose] ? `Change ${pose}` : `Choose ${pose}…`);
       button.type = 'button';
@@ -313,7 +349,15 @@
   $('createChar').addEventListener('click', async () => {
     const error = $('charError');
     error.hidden = true;
-    const result = await window.api.createCharacter({ name: $('charName').value, use: $('useNow').checked });
+    let images;
+    try {
+      images = await buildImages();
+    } catch (err) {
+      error.textContent = err.message;
+      error.hidden = false;
+      return;
+    }
+    const result = await window.api.createCharacter({ name: $('charName').value, use: $('useNow').checked, images });
     if (!result || !result.ok) {
       error.textContent = (result && result.error) || 'Could not save that buddy.';
       error.hidden = false;
@@ -325,6 +369,9 @@
     renderPicks();
     await refresh();
   });
+
+  for (const id of ['doPixel', 'doBg', 'doPoses']) $(id).addEventListener('change', renderPicks);
+  $('detail').addEventListener('change', renderPicks);
 
   $('openFolder').addEventListener('click', () => window.api.openCharactersFolder());
 
