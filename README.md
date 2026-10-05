@@ -78,6 +78,8 @@ You can turn any picture you have (a photo, a drawing, a character you like) int
 5. Tick **Use it right away** and press **Save buddy**.
 6. To remove a buddy later: Settings and stats > Characters > **Delete** under it (click twice to confirm).
 
+More tools and tips: [docs/PIXEL_ART.md](docs/PIXEL_ART.md).
+
 Only use pictures you have the right to use. Pictures of real people and characters from films or shows belong to their owners, so keep those buddies for your own use and do not publish them.
 
 ## How it behaves
