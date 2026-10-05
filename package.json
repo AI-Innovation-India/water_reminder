@@ -62,6 +62,10 @@
       "createStartMenuShortcut": true,
       "shortcutName": "Water Buddy",
       "runAfterFinish": true
-    }
+    },
+    "electronLanguages": [
+      "en-US"
+    ],
+    "compression": "maximum"
   }
 }
