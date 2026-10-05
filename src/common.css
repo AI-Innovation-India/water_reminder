@@ -1,0 +1,30 @@
+
+/* Jersey 15, bundled locally (SIL Open Font License, see fonts/OFL-Jersey15.txt).
+   Chosen over fancier pixel fonts because its digits stay readable: 45 is not 48. */
+@font-face {
+  font-family: 'Jersey 15';
+  font-weight: 400 700;
+  font-display: block;
+  src: url('fonts/jersey-15-latin-400-normal.woff2') format('woff2');
+}
+
+:root {
+  --ink: #2b1d3a;          /* same plum as the sprite outlines */
+  --ink-soft: #4d3d66;
+  --paper: #ffffff;
+  --sky: #4cc3ff;
+  --sky-light: #9fdcff;
+  --sky-pale: #e4f6ff;
+  --sky-deep: #1b6fb8;
+  --pink: #ff8fb1;
+  --pink-deep: #e0456f;
+  --sun: #ffd35a;
+  --px: 4px;
+  --font: 'Jersey 15', ui-monospace, 'Cascadia Mono', Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

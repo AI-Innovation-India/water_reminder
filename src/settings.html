@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Water Buddy settings</title>
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="setup.css" />
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body data-mode="settings" data-first-run="false">
+    <form id="form" novalidate>
+      <header class="intro">
+        <img class="intro-icon" src="../assets/icon.png" width="64" height="64" alt="" />
+        <div>
+          <h1>Settings and stats</h1>
+          <p class="muted" id="hello">Tune your buddy, then save.</p>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Sections">
+        <a href="#stats">Stats</a>
+        <a href="#water">Water</a>
+        <a href="#hours">Hours</a>
+        <a href="#habits">Reminders</a>
+        <a href="#look">Look</a>
+        <a href="#characters">Characters</a>
+      </nav>
+
+      <section class="field" id="stats">
+        <h2>Your stats</h2>
+        <div class="tiles" id="tiles"></div>
+        <div class="week" id="week" role="img" aria-label="Water over the last 7 days"></div>
+        <p class="muted" id="weekNote"></p>
+      </section>
+
+      <section class="field" id="water">
+        <h2>Water</h2>
+        <div class="row">
+          <label for="goal">Daily goal</label>
+          <input id="goal" class="px-input small" type="number" min="500" max="6000" step="50" inputmode="numeric" />
+          <span class="muted">ml</span>
+        </div>
+        <div class="row">
+          <label for="glass">One glass or bottle</label>
+          <input id="glass" class="px-input small" type="number" min="50" max="1000" step="10" inputmode="numeric" />
+          <span class="muted">ml</span>
+        </div>
+        <div class="row">
+          <label for="snooze">Snooze for</label>
+          <input id="snooze" class="px-input small" type="number" min="1" max="120" step="1" inputmode="numeric" />
+          <span class="muted">minutes</span>
+        </div>
+        <label class="check" for="hot"><input id="hot" type="checkbox" /><span class="box" aria-hidden="true"></span><span>Hot day / workout mode (remind more often)</span></label>
+        <label class="check" for="sound"><input id="sound" type="checkbox" /><span class="box" aria-hidden="true"></span><span>Play little sounds</span></label>
+      </section>
+
+      <section class="field" id="hours">
+        <h2>Active hours</h2>
+        <p class="muted">She only visits between these times, in the timezone you choose.</p>
+        <div class="row">
+          <label for="start">From</label>
+          <input id="start" class="px-input small wide" type="time" />
+          <label for="end">to</label>
+          <input id="end" class="px-input small wide" type="time" />
+        </div>
+        <div class="row">
+          <label for="zone">Timezone</label>
+          <select id="zone" class="px-input"></select>
+        </div>
+      </section>
+
+      <section class="field" id="habits">
+        <h2>Other reminders</h2>
+        <p class="muted">Water is always on. Turn on more, or add your own.</p>
+        <div id="habitList" class="habit-list"></div>
+        <div class="add-habit">
+          <input id="newLabel" class="px-input" type="text" maxlength="40" placeholder="New reminder, e.g. Take meds" autocomplete="off" />
+          <input id="newLine" class="px-input" type="text" maxlength="90" placeholder="What she says (optional)" autocomplete="off" />
+          <div class="row">
+            <label for="newEvery">Every</label>
+            <input id="newEvery" class="px-input small" type="number" min="5" max="480" value="60" />
+            <span class="muted">minutes</span>
+            <button type="button" class="btn btn-ghost" id="addHabit">Add</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="field" id="look">
+        <h2>Look</h2>
+        <div class="look">
+          <div class="preview"><img id="previewImg" alt="" /></div>
+          <div class="look-controls">
+            <label for="hue">Colour shift</label>
+            <input id="hue" type="range" min="0" max="359" step="1" />
+            <button type="button" class="link" id="resetHue">Reset colour</button>
+          </div>
+        </div>
+        <span class="label sub">Accessory</span>
+        <p class="muted">Win them by drinking water and keeping streaks.</p>
+        <div class="chips" id="accessories" role="radiogroup" aria-label="Accessory"></div>
+      </section>
+
+      <section class="field" id="characters">
+        <h2>Characters</h2>
+        <div class="chars" id="chars" role="radiogroup" aria-label="Buddy"></div>
+
+        <h3>Make your own buddy</h3>
+        <p class="muted">
+          Use any pictures (PNG, JPG, GIF, WebP). Transparent PNGs look best. Only <strong>standing</strong> is
+          required; drinking and celebrating fall back to it.
+        </p>
+        <input id="charName" class="px-input" type="text" maxlength="24" placeholder="Name your buddy" autocomplete="off" />
+        <div class="picks" id="picks"></div>
+        <p class="error" id="charError" role="alert" hidden></p>
+        <div class="row">
+          <label class="check" for="useNow"><input id="useNow" type="checkbox" checked /><span class="box" aria-hidden="true"></span><span>Use it right away</span></label>
+          <button type="button" class="btn btn-primary" id="createChar">Save buddy</button>
+        </div>
+        <button type="button" class="link" id="openFolder">Open the characters folder</button>
+      </section>
+
+      <p class="error" id="saveError" role="alert" hidden></p>
+
+      <footer class="bar">
+        <span class="muted" id="saved" aria-live="polite"></span>
+        <div class="bar-actions">
+          <button type="button" class="btn btn-ghost" id="close">Close</button>
+          <button type="submit" class="btn btn-primary" id="save">Save settings</button>
+        </div>
+      </footer>
+    </form>
+    <script src="settings.js"></script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'"
+    />
+    <title>Water Buddy</title>
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="companion.css" />
+  </head>
+  <body>
+    <main class="stage" id="stage">
+      <section class="bubble" id="bubble" data-hit role="alertdialog" aria-live="polite" aria-labelledby="bubbleText">
+        <p class="bubble-text" id="bubbleText"></p>
+        <div class="actions" id="actions">
+          <button class="btn btn-primary" id="btnPrimary" type="button"></button>
+          <button class="btn btn-ghost" id="btnSnooze" type="button"></button>
+        </div>
+        <svg class="tail" viewBox="0 0 10 5" width="40" height="20" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="1" y="0" width="8" height="1" fill="#fff" />
+          <rect x="1" y="1" width="1" height="1" fill="#2b1d3a" />
+          <rect x="2" y="1" width="6" height="1" fill="#fff" />
+          <rect x="8" y="1" width="1" height="1" fill="#2b1d3a" />
+          <rect x="2" y="2" width="1" height="1" fill="#2b1d3a" />
+          <rect x="3" y="2" width="4" height="1" fill="#fff" />
+          <rect x="7" y="2" width="1" height="1" fill="#2b1d3a" />
+          <rect x="3" y="3" width="1" height="1" fill="#2b1d3a" />
+          <rect x="4" y="3" width="2" height="1" fill="#fff" />
+          <rect x="6" y="3" width="1" height="1" fill="#2b1d3a" />
+          <rect x="4" y="4" width="2" height="1" fill="#2b1d3a" />
+        </svg>
+      </section>
+
+      <div class="buddy" id="buddy" data-hit>
+        <div class="shadow"></div>
+        <div class="sprite" id="sprite">
+          <img data-pose="standing" alt="" draggable="false" />
+          <img data-pose="drinking" alt="" draggable="false" />
+          <img data-pose="celebrate" alt="" draggable="false" />
+        </div>
+        <div class="accessory" id="accessory" aria-hidden="true"></div>
+        <div class="confetti-layer" id="confetti" aria-hidden="true"></div>
+      </div>
+    </main>
+    <div class="game" id="game" aria-hidden="true"></div>
+    <script src="companion.js"></script>
+  </body>
+</html>

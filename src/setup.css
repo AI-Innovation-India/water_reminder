@@ -1,0 +1,448 @@
+html {
+  background: var(--sky-pale);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font: 400 21px/1.3 var(--font);
+  background: var(--sky-pale);
+  -webkit-font-smoothing: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 28px 32px 0;
+}
+
+.muted {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 20px;
+}
+
+.error {
+  margin: 10px 0 0;
+  color: #a81f49;
+  font-size: 21px;
+}
+
+.error[hidden] {
+  display: none;
+}
+
+/* ---------- header ---------- */
+.intro {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.intro-icon {
+  flex: none;
+  image-rendering: pixelated;
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- fields ---------- */
+.field {
+  margin-top: 24px;
+}
+
+.field > label:not(.check),
+.label {
+  display: block;
+  margin: 0 0 12px;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.px-input {
+  display: block;
+  width: calc(100% - 8px);
+  margin: 4px;
+  padding: 10px 14px 11px;
+  border: 0;
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 28px/1.2 var(--font);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+}
+
+.px-input::placeholder {
+  color: #8f84a3;
+  font-weight: 400;
+}
+
+.px-input:focus {
+  outline: none;
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink),
+    0 0 0 8px var(--sky);
+}
+
+.px-input.small {
+  display: inline-block;
+  width: 104px;
+  padding: 6px 10px 7px;
+  font-size: 26px;
+}
+
+.px-input.invalid {
+  background: #fff0f4;
+}
+
+/* ---------- interval chips ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 4px;
+}
+
+.custom-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 4px 8px;
+}
+
+.custom-row .muted {
+  font-size: 22px;
+}
+
+/* ---------- buttons (shared look with the buddy's bubble) ---------- */
+.btn,
+.chip {
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  margin: 4px;
+  padding: 9px 13px 10px;
+  color: var(--ink);
+  font: 400 24px/1 var(--font);
+  cursor: pointer;
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink),
+    inset -4px -4px 0 0 rgba(43, 29, 58, 0.18);
+}
+
+.btn-primary,
+.chip[aria-pressed='true'] {
+  background: var(--sky);
+}
+
+.btn-ghost,
+.chip {
+  background: var(--paper);
+}
+
+.btn-primary {
+  padding: 11px 22px 12px;
+  font-size: 27px;
+}
+
+.btn:hover,
+.chip:hover {
+  filter: brightness(1.07);
+}
+
+.btn:active,
+.chip:active {
+  transform: translateY(2px);
+}
+
+.btn:focus-visible,
+.chip:focus-visible,
+.char:focus-visible,
+.link:focus-visible {
+  outline: 4px solid var(--sun);
+  outline-offset: 5px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ---------- character picker ---------- */
+.chars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 26px 22px;
+  padding: 8px 6px 4px;
+}
+
+.char {
+  --bar: var(--ink);
+  appearance: none;
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  padding: 14px 8px 12px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 26px/1.1 var(--font);
+  text-align: center;
+  cursor: pointer;
+  box-shadow:
+    0 -4px 0 0 var(--bar),
+    0 4px 0 0 var(--bar),
+    -4px 0 0 0 var(--bar),
+    4px 0 0 0 var(--bar);
+}
+
+.char:hover {
+  background: #f6fcff;
+}
+
+.char[aria-checked='true'] {
+  --bar: var(--pink-deep);
+  background: #fff4f8;
+  box-shadow:
+    0 -4px 0 0 var(--bar),
+    0 4px 0 0 var(--bar),
+    -4px 0 0 0 var(--bar),
+    4px 0 0 0 var(--bar),
+    0 0 0 8px rgba(255, 143, 177, 0.45);
+}
+
+.char-art {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 124px;
+  margin-bottom: 12px;
+}
+
+/* the little floor each buddy stands on */
+.char-art::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
+  height: 8px;
+  background: repeating-linear-gradient(90deg, var(--sky) 0 8px, var(--sky-light) 8px 16px);
+}
+
+.char-art img {
+  position: relative;
+  display: block;
+  margin-bottom: 4px;
+  image-rendering: pixelated;
+}
+
+.char .badge {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  display: none;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  background: var(--pink-deep);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+}
+
+.char[aria-checked='true'] .badge {
+  display: grid;
+}
+
+.char.add {
+  --bar: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 190px;
+  background: transparent;
+  box-shadow: none;
+  border: 4px dashed var(--ink-soft);
+}
+
+.char.add:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.plus {
+  display: block;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
+}
+
+.plus::before,
+.plus::after {
+  content: '';
+  position: absolute;
+  background: var(--ink-soft);
+}
+
+.plus::before {
+  left: 16px;
+  top: 0;
+  width: 8px;
+  height: 40px;
+}
+
+.plus::after {
+  left: 0;
+  top: 16px;
+  width: 40px;
+  height: 8px;
+}
+
+.add-help {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 4px 0;
+}
+
+.link {
+  flex: none;
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--sky-deep);
+  font: 400 22px/1.2 var(--font);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+/* ---------- checkbox ---------- */
+.check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.check input {
+  position: absolute;
+  opacity: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+.check .box {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin: 4px;
+  background: var(--paper);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+}
+
+.check input:checked + .box {
+  background: var(--sky);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink),
+    inset 0 0 0 6px var(--sky),
+    inset 0 0 0 12px var(--ink);
+}
+
+.check input:focus-visible + .box {
+  outline: 4px solid var(--sun);
+  outline-offset: 6px;
+}
+
+.check input:disabled + .box,
+.check input:disabled ~ span {
+  opacity: 0.5;
+}
+
+/* ---------- footer bar ---------- */
+.bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: auto -32px 0;
+  padding: 18px 32px 20px;
+  background: var(--sky-pale);
+  box-shadow: 0 -4px 0 0 var(--ink);
+}
+
+.bar-actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.field:last-of-type {
+  margin-bottom: 32px;
+}
+
+/* ---------- modes ---------- */
+body[data-mode='name'] .sec-interval,
+body[data-mode='name'] .sec-character,
+body[data-mode='name'] .sec-login,
+body[data-mode='interval'] .sec-name,
+body[data-mode='interval'] .sec-character,
+body[data-mode='interval'] .sec-login {
+  display: none;
+}
+
+body[data-mode='name'] .intro-icon,
+body[data-mode='interval'] .intro-icon {
+  display: none;
+}
+
+body[data-mode='name'] .field,
+body[data-mode='interval'] .field {
+  margin-top: 22px;
+}
+
+body[data-first-run='true'] #cancel {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

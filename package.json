@@ -1,0 +1,67 @@
+{
+  "name": "water-buddy",
+  "productName": "Water Buddy",
+  "version": "1.0.0",
+  "description": "A tiny pixel-art buddy who lives in your screen corner and reminds you to drink water.",
+  "main": "main.js",
+  "author": "You",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "demo": "electron . --remind-now",
+    "test": "node tools/test-schedule.js && node tools/test-stats.js",
+    "e2e": "node tools/e2e.js",
+    "assets": "python3 tools/make_assets.py",
+    "dist": "electron-builder",
+    "dist:dir": "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.waterbuddy.app",
+    "productName": "Water Buddy",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "characters/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.healthcare-fitness",
+      "icon": "assets/icon.png",
+      "extendInfo": {
+        "LSUIElement": true
+      }
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Water Buddy",
+      "runAfterFinish": true
+    }
+  }
+}

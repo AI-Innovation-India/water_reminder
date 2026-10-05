@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Water Buddy</title>
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="setup.css" />
+  </head>
+  <body data-mode="full">
+    <form id="form" novalidate>
+      <header class="intro">
+        <img class="intro-icon" src="../assets/icon.png" width="64" height="64" alt="" />
+        <div>
+          <h1 id="title">Meet your water buddy</h1>
+          <p id="subtitle" class="muted">She pops up in the corner of your screen and reminds you to drink.</p>
+        </div>
+      </header>
+
+      <section class="field sec-name">
+        <label for="name" id="nameLabel">What should she call you?</label>
+        <input id="name" class="px-input" type="text" maxlength="30" autocomplete="off" spellcheck="false" placeholder="Your name" />
+        <p class="error" id="nameError" role="alert" hidden></p>
+      </section>
+
+      <section class="field sec-interval">
+        <label id="intervalLabel" for="custom">How often should she remind you?</label>
+        <div class="chips" id="chips" role="group" aria-labelledby="intervalLabel"></div>
+        <div class="custom-row">
+          <label class="muted" for="custom">Or pick your own</label>
+          <input id="custom" class="px-input small" type="number" min="5" max="480" step="1" inputmode="numeric" placeholder="50" />
+          <span class="muted">minutes</span>
+        </div>
+        <p class="muted" id="windowNote"></p>
+        <p class="error" id="intervalError" role="alert" hidden></p>
+      </section>
+
+      <section class="field sec-character">
+        <span class="label" id="charLabel">Pick your buddy</span>
+        <div class="chars" id="chars" role="radiogroup" aria-labelledby="charLabel"></div>
+        <div class="add-help">
+          <p class="muted">
+            Want your own? Add a folder with <strong>standing.png</strong> and <strong>drinking.png</strong>
+            (<strong>celebrate.png</strong> is optional), then refresh.
+          </p>
+          <button type="button" class="link" id="refresh">Refresh list</button>
+        </div>
+      </section>
+
+      <footer class="bar">
+        <label class="check sec-login" for="login" id="loginLabel">
+          <input id="login" type="checkbox" />
+          <span class="box" aria-hidden="true"></span>
+          <span>Start when I sign in</span>
+        </label>
+        <div class="bar-actions">
+          <button type="button" class="btn btn-ghost" id="cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save">Start reminding me</button>
+        </div>
+      </footer>
+    </form>
+    <script src="setup.js"></script>
+  </body>
+</html>

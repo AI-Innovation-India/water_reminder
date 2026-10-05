@@ -1,0 +1,287 @@
+/* extra bits for the settings and stats window (builds on setup.css) */
+h2 {
+  margin: 0 0 12px;
+  font-size: 34px;
+  font-weight: 400;
+}
+
+h3 {
+  margin: 26px 0 8px;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.field {
+  margin-top: 30px;
+  scroll-margin-top: 70px;
+}
+
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 18px -32px 0;
+  padding: 10px 32px 12px;
+  background: var(--sky-pale);
+  box-shadow: 0 4px 0 0 var(--ink);
+}
+
+.tabs a {
+  color: var(--sky-deep);
+  font-size: 24px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 12px 4px;
+}
+
+.row > label:not(.check) {
+  min-width: 190px;
+  font-size: 24px;
+}
+
+.row #zone {
+  flex: 1;
+  min-width: 260px;
+  font-size: 22px;
+}
+
+.px-input.wide {
+  width: 170px;
+}
+
+select.px-input {
+  appearance: none;
+  width: auto;
+  cursor: pointer;
+}
+
+input[type='range'] {
+  width: 100%;
+  accent-color: var(--pink-deep);
+}
+
+.check {
+  display: flex;
+  margin: 10px 4px;
+}
+
+/* ---------- stats ---------- */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 18px 16px;
+  padding: 6px 4px;
+}
+
+.tile {
+  padding: 12px 12px 10px;
+  background: var(--paper);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+}
+
+.tile b {
+  display: block;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.tile span {
+  color: var(--ink-soft);
+  font-size: 20px;
+}
+
+.week {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 160px;
+  margin: 26px 4px 6px;
+  padding: 0 6px 30px;
+  border-bottom: 4px solid var(--ink);
+}
+
+.week .col {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.week .bar-fill {
+  width: 100%;
+  min-height: 4px;
+  background: var(--sky);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+}
+
+.week .col.met .bar-fill {
+  background: var(--pink);
+}
+
+.week .day {
+  position: absolute;
+  bottom: -30px;
+  font-size: 20px;
+  color: var(--ink-soft);
+}
+
+.week .goal-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 3px dashed var(--pink-deep);
+  pointer-events: none;
+}
+
+/* ---------- habits ---------- */
+.habit-list {
+  display: grid;
+  gap: 4px;
+}
+
+.habit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.habit .check {
+  flex: 1;
+  min-width: 220px;
+}
+
+.habit .every {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.habit .remove {
+  margin: 0;
+}
+
+.add-habit {
+  margin-top: 16px;
+}
+
+.add-habit .px-input {
+  margin-bottom: 12px;
+}
+
+/* ---------- look ---------- */
+.look {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 8px 4px 22px;
+}
+
+.preview {
+  flex: none;
+  display: grid;
+  place-items: end center;
+  width: 150px;
+  height: 150px;
+  background: var(--paper);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+}
+
+.preview img {
+  display: block;
+  margin-bottom: 8px;
+  image-rendering: pixelated;
+}
+
+.look-controls {
+  flex: 1;
+}
+
+.look-controls label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+.label.sub {
+  margin-top: 6px;
+}
+
+.chip[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- characters ---------- */
+.char .remove-char {
+  display: block;
+  margin: 10px auto 0;
+  font-size: 20px;
+}
+
+.picks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 18px;
+  margin: 16px 4px 8px;
+}
+
+.pick {
+  text-align: center;
+}
+
+.pick .thumb {
+  display: grid;
+  place-items: center;
+  height: 112px;
+  margin-bottom: 8px;
+  background: var(--paper);
+  box-shadow:
+    0 -4px 0 0 var(--ink),
+    0 4px 0 0 var(--ink),
+    -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+  color: var(--ink-soft);
+  font-size: 20px;
+}
+
+.pick .thumb img {
+  max-width: 100%;
+  max-height: 100px;
+  image-rendering: pixelated;
+}
+
+#openFolder {
+  margin: 18px 4px 10px;
+}
+
+.bar {
+  margin-top: 32px;
+}
