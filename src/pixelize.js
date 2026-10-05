@@ -65,21 +65,36 @@ window.Pixelize = (() => {
     const h = Math.max(16, Math.min(96, Math.round(height)));
     const w = Math.max(8, Math.round((img.naturalWidth * h) / img.naturalHeight));
 
+    // Cut the background out at 4x size first, then shrink: the edge pixels then carry the
+    // subject's colours instead of a blend with the background (no coloured halo).
+    const scale = 4;
+    const mid = document.createElement('canvas');
+    mid.width = w * scale;
+    mid.height = h * scale;
+    const mctx = mid.getContext('2d', { willReadFrequently: true });
+    mctx.imageSmoothingEnabled = true;
+    mctx.imageSmoothingQuality = 'high';
+    mctx.drawImage(img, 0, 0, mid.width, mid.height);
+    if (removeBg) {
+      const big = mctx.getImageData(0, 0, mid.width, mid.height);
+      removeBackground(big.data, mid.width, mid.height);
+      mctx.putImageData(big, 0, 0);
+    }
+
     const small = document.createElement('canvas');
     small.width = w;
     small.height = h;
     const sctx = small.getContext('2d', { willReadFrequently: true });
     sctx.imageSmoothingEnabled = true;
     sctx.imageSmoothingQuality = 'high';
-    sctx.drawImage(img, 0, 0, w, h);
+    sctx.drawImage(mid, 0, 0, w, h);
 
     const image = sctx.getImageData(0, 0, w, h);
     const data = image.data;
-    if (removeBg) removeBackground(data, w, h);
 
     const step = 255 / (Math.max(2, levels) - 1);
     for (let i = 0; i < data.length; i += 4) {
-      if (data[i + 3] < 128) {
+      if (data[i + 3] < 150) {
         data[i + 3] = 0;
         continue;
       }
